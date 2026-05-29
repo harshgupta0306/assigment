@@ -331,7 +331,7 @@ Important Instructions:
 st.markdown(
     """
     <div class="footer">
-        Made with 💖 for your cutie
+        Made with 💖 for you cutie
     </div>
     """,
     unsafe_allow_html=True
