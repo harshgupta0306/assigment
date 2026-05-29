@@ -285,9 +285,6 @@ for file in chat_files:
     # map display name -> actual file
     chat_mapping[display_name] = file
 
-    print(chat_display_names)
-    print(chat_mapping)
-
 # ============================================
 # SIDEBAR
 # ============================================
@@ -321,7 +318,6 @@ if selected_chat != "New Chat":
 
 # LOAD OLD CHAT
 if selected_chat != "New Chat":
-    print("opening", chat_mapping[selected_chat])
     selected_file = chat_mapping[selected_chat]
     with open(
         os.path.join(CHAT_DIR, selected_file),
