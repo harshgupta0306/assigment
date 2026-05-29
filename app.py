@@ -34,56 +34,39 @@ st.markdown("""
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* =========================================
-GLOBAL
-========================================= */
+/* =========================
+APP ROOT
+========================= */
 
-html, body, [class*="css"] {
-    font-family: 'Poppins', sans-serif;
-    color: #0f172a !important;
-    background-color: #eaf6ff !important;
-}
-
-/* Main App */
 .stApp {
-    background-color: #eaf6ff !important;
-    color: #0f172a !important;
+    background-color: #eaf6ff;
+    font-family: 'Poppins', sans-serif;
+    color: #0f172a;
 }
 
-/* Main Container */
-[data-testid="stAppViewContainer"] {
-    background-color: #eaf6ff !important;
+/* Main container */
+.main .block-container {
+    max-width: 850px;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
-/* Main Block */
-.main {
-    background-color: #eaf6ff !important;
-}
-
-/* =========================================
+/* =========================
 SIDEBAR
-========================================= */
+========================= */
 
-section[data-testid="stSidebar"] {
-    background: #dbeafe !important;
+[data-testid="stSidebar"] {
+    background: #dbeafe;
     border-right: 1px solid #bfdbfe;
 }
 
-section[data-testid="stSidebar"] * {
-    color: #0f172a !important;
+[data-testid="stSidebar"] * {
+    color: #0f172a;
 }
 
-/* Sidebar selectbox */
-.stSelectbox div[data-baseweb="select"] {
-    background: white !important;
-    color: #0f172a !important;
-    border-radius: 12px;
-}
-
-
-/* =========================================
+/* =========================
 TITLE
-========================================= */
+========================= */
 
 .main-title {
     text-align: center;
@@ -102,57 +85,45 @@ TITLE
     font-weight: 500;
 }
 
-/* =========================================
-LAYOUT
-========================================= */
-
-.block-container {
-    padding-top: 2rem;
-    max-width: 850px;
-}
-
-/* =========================================
+/* =========================
 TEXT AREA
-========================================= */
+========================= */
 
 .stTextArea textarea {
-    background: white !important;
-    color: #0f172a !important;
+    background: white;
+    color: #0f172a;
 
-    border-radius: 18px !important;
-    border: 2px solid #93c5fd !important;
+    border-radius: 18px;
+    border: 2px solid #93c5fd;
 
-    padding: 1rem !important;
-    font-size: 16px !important;
-    line-height: 1.6 !important;
+    padding: 1rem;
+    font-size: 16px;
+    line-height: 1.6;
 
     box-shadow: 0 4px 12px rgba(59,130,246,0.08);
 }
 
-/* Placeholder */
 .stTextArea textarea::placeholder {
-    color: #64748b !important;
+    color: #64748b;
 }
 
-/* =========================================
+/* =========================
 BUTTONS
-========================================= */
+========================= */
 
 .stButton > button {
     width: 100%;
-
     border: none;
     border-radius: 16px;
 
-    background: linear-gradient(90deg, #3b82f6, #60a5fa) !important;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
 
-    color: white !important;
+    color: white;
 
     font-size: 1rem;
     font-weight: 600;
 
     padding: 0.9rem;
-
     margin-top: 10px;
 
     transition: all 0.25s ease;
@@ -167,15 +138,15 @@ BUTTONS
         90deg,
         #2563eb,
         #3b82f6
-    ) !important;
+    );
 }
 
-/* =========================================
+/* =========================
 ANSWER BOX
-========================================= */
+========================= */
 
 .answer-box {
-    background: white !important;
+    background: white;
 
     border-radius: 22px;
 
@@ -187,35 +158,27 @@ ANSWER BOX
 
     box-shadow: 0 8px 24px rgba(59,130,246,0.12);
 
-    color: #0f172a !important;
+    color: #0f172a;
 }
 
-/* Answer Text */
-.answer-box * {
-    color: #0f172a !important;
-}
+/* =========================
+MARKDOWN TEXT
+========================= */
 
-/* =========================================
-MARKDOWN FIXES
-========================================= */
-
-.stMarkdown,
 .stMarkdown p,
 .stMarkdown li,
-.stMarkdown span,
-.stMarkdown div,
 .stMarkdown h1,
 .stMarkdown h2,
 .stMarkdown h3,
 .stMarkdown h4,
 .stMarkdown h5,
 .stMarkdown h6 {
-    color: #0f172a !important;
+    color: #0f172a;
 }
 
-/* =========================================
+/* =========================
 STATUS BOX
-========================================= */
+========================= */
 
 .status-box {
     background: white;
@@ -226,7 +189,7 @@ STATUS BOX
 
     border: 2px solid #bfdbfe;
 
-    color: #2563eb !important;
+    color: #2563eb;
 
     font-weight: 600;
 
@@ -237,14 +200,14 @@ STATUS BOX
     box-shadow: 0 4px 14px rgba(59,130,246,0.1);
 }
 
-/* =========================================
+/* =========================
 FOOTER
-========================================= */
+========================= */
 
 .footer {
     text-align: center;
 
-    color: #64748b !important;
+    color: #64748b;
 
     margin-top: 2rem;
 
@@ -253,9 +216,9 @@ FOOTER
     font-weight: 500;
 }
 
-/* =========================================
-HIDE STREAMLIT BRANDING
-========================================= */
+/* =========================
+HIDE STREAMLIT UI
+========================= */
 
 #MainMenu {
     visibility: hidden;
