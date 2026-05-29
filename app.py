@@ -29,28 +29,62 @@ st.set_page_config(
 # ============================================
 # CUSTOM CSS
 # ============================================
-
 st.markdown("""
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+/* =========================================
+GLOBAL
+========================================= */
+
 html, body, [class*="css"] {
     font-family: 'Poppins', sans-serif;
-    color: #1e293b !important;
+    color: #0f172a !important;
+    background-color: #eaf6ff !important;
 }
 
 /* Main App */
 .stApp {
-    background: #eaf6ff;
+    background-color: #eaf6ff !important;
+    color: #0f172a !important;
 }
 
-/* Remove weird dark/light theme conflicts */
+/* Main Container */
 [data-testid="stAppViewContainer"] {
-    background: #eaf6ff;
+    background-color: #eaf6ff !important;
 }
 
-/* Main title */
+/* Main Block */
+.main {
+    background-color: #eaf6ff !important;
+}
+
+/* =========================================
+SIDEBAR
+========================================= */
+
+section[data-testid="stSidebar"] {
+    background: #dbeafe !important;
+    border-right: 1px solid #bfdbfe;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #0f172a !important;
+}
+
+/* Sidebar selectbox */
+.stSelectbox div[data-baseweb="select"] {
+    background: white !important;
+    color: #0f172a !important;
+    border-radius: 12px;
+}
+
+
+/* =========================================
+TITLE
+========================================= */
+
 .main-title {
     text-align: center;
     font-size: 3rem;
@@ -60,7 +94,6 @@ html, body, [class*="css"] {
     margin-bottom: 0px;
 }
 
-/* Subtitle */
 .subtitle {
     text-align: center;
     color: #475569;
@@ -69,99 +102,161 @@ html, body, [class*="css"] {
     font-weight: 500;
 }
 
-/* Input container */
+/* =========================================
+LAYOUT
+========================================= */
+
 .block-container {
     padding-top: 2rem;
     max-width: 850px;
 }
 
-/* Text Area */
+/* =========================================
+TEXT AREA
+========================================= */
+
 .stTextArea textarea {
     background: white !important;
     color: #0f172a !important;
+
     border-radius: 18px !important;
     border: 2px solid #93c5fd !important;
+
     padding: 1rem !important;
     font-size: 16px !important;
     line-height: 1.6 !important;
+
     box-shadow: 0 4px 12px rgba(59,130,246,0.08);
 }
 
-/* Placeholder text */
+/* Placeholder */
 .stTextArea textarea::placeholder {
     color: #64748b !important;
 }
 
-/* Button */
+/* =========================================
+BUTTONS
+========================================= */
+
 .stButton > button {
     width: 100%;
+
     border: none;
     border-radius: 16px;
-    background: linear-gradient(90deg, #3b82f6, #60a5fa);
-    color: white;
+
+    background: linear-gradient(90deg, #3b82f6, #60a5fa) !important;
+
+    color: white !important;
+
     font-size: 1rem;
     font-weight: 600;
+
     padding: 0.9rem;
+
     margin-top: 10px;
+
     transition: all 0.25s ease;
+
     box-shadow: 0 6px 18px rgba(59,130,246,0.2);
 }
 
-/* Button Hover */
 .stButton > button:hover {
     transform: translateY(-2px);
-    background: linear-gradient(90deg, #2563eb, #3b82f6);
+
+    background: linear-gradient(
+        90deg,
+        #2563eb,
+        #3b82f6
+    ) !important;
 }
 
-/* Answer Container */
+/* =========================================
+ANSWER BOX
+========================================= */
+
 .answer-box {
-    background: white;
+    background: white !important;
+
     border-radius: 22px;
+
     padding: 2rem;
+
     margin-top: 1.5rem;
+
     border: 2px solid #bfdbfe;
+
     box-shadow: 0 8px 24px rgba(59,130,246,0.12);
-}
 
-/* Markdown text */
-.answer-box p,
-.answer-box li,
-.answer-box h1,
-.answer-box h2,
-.answer-box h3,
-.answer-box h4,
-.answer-box span {
     color: #0f172a !important;
 }
 
-/* Streamed response text */
-.stMarkdown {
+/* Answer Text */
+.answer-box * {
     color: #0f172a !important;
 }
 
-/* Status Box */
+/* =========================================
+MARKDOWN FIXES
+========================================= */
+
+.stMarkdown,
+.stMarkdown p,
+.stMarkdown li,
+.stMarkdown span,
+.stMarkdown div,
+.stMarkdown h1,
+.stMarkdown h2,
+.stMarkdown h3,
+.stMarkdown h4,
+.stMarkdown h5,
+.stMarkdown h6 {
+    color: #0f172a !important;
+}
+
+/* =========================================
+STATUS BOX
+========================================= */
+
 .status-box {
     background: white;
+
     padding: 14px;
+
     border-radius: 16px;
+
     border: 2px solid #bfdbfe;
-    color: #2563eb;
+
+    color: #2563eb !important;
+
     font-weight: 600;
+
     text-align: center;
+
     margin-bottom: 15px;
+
     box-shadow: 0 4px 14px rgba(59,130,246,0.1);
 }
 
-/* Footer */
+/* =========================================
+FOOTER
+========================================= */
+
 .footer {
     text-align: center;
-    color: #64748b;
+
+    color: #64748b !important;
+
     margin-top: 2rem;
+
     font-size: 0.95rem;
+
     font-weight: 500;
 }
 
-/* Hide streamlit branding */
+/* =========================================
+HIDE STREAMLIT BRANDING
+========================================= */
+
 #MainMenu {
     visibility: hidden;
 }
