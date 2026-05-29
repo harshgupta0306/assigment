@@ -1,12 +1,16 @@
 import streamlit as st
 from langchain_mistralai import ChatMistralAI
 from dotenv import load_dotenv
-
+import streamlit.components.v1 as components
+import os 
+import json 
+from datetime import datetime
 # ============================================
 # PAGE CONFIG
 # ============================================
 load_dotenv()
-
+CHAT_DIR = "saved_chats" 
+os.makedirs(CHAT_DIR, exist_ok=True)
 
 llm = ChatMistralAI(
     model="mistral-large-latest",
@@ -18,7 +22,8 @@ llm = ChatMistralAI(
 st.set_page_config(
     page_title="Meri cutie ki Assignments 💖",
     page_icon="💖",
-    layout="centered"
+    layout="centered",
+    initial_sidebar_state="expanded"
 )
 
 # ============================================
@@ -165,10 +170,6 @@ footer {
     visibility: hidden;
 }
 
-header {
-    visibility: hidden;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -186,12 +187,112 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# ============================================
+# SIDEBAR CHAT HISTORY
+# ============================================
+
+st.sidebar.title("💙 Previous Assignments")
+
+# ============================================
+# LOAD SAVED CHATS
+# ============================================
+
+chat_files = sorted(
+    os.listdir(CHAT_DIR),
+    reverse=True
+)
+
+chat_display_names = []
+chat_mapping = {}
+
+for file in chat_files:
+
+    # remove extension
+    question_text = file.split("@",1)[0]
+
+    # sidebar visible name
+    display_name = question_text
+
+    # keep duplicates unique internally
+    counter = 1
+
+    while display_name in chat_mapping:
+
+        counter += 1
+
+        display_name = f"{question_text} ({counter})"
+
+    chat_display_names.append(display_name)
+
+    # map display name -> actual file
+    chat_mapping[display_name] = file
+
+    print(chat_display_names)
+    print(chat_mapping)
+
+# ============================================
+# SIDEBAR
+# ============================================
+
+selected_chat = st.sidebar.selectbox(
+    "💙 Previous Assignments",
+    ["New Chat"] + chat_display_names
+)
+
+# ============================================
+# LOAD CHAT
+# ============================================
+
+if selected_chat != "New Chat":
+
+    selected_file = chat_mapping[selected_chat]
+
+    with open(
+        os.path.join(CHAT_DIR, selected_file),
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        saved_data = json.load(f)
+
+    question = saved_data["question"]
+
+    full_response = saved_data["answer"]
+
+
+
+# LOAD OLD CHAT
+if selected_chat != "New Chat":
+    print("opening", chat_mapping[selected_chat])
+    selected_file = chat_mapping[selected_chat]
+    with open(
+        os.path.join(CHAT_DIR, selected_file),
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        saved_data = json.load(f)
+
+    st.sidebar.markdown("### 📚 Question")
+    st.sidebar.write(saved_data["question"])
+
+    st.sidebar.markdown("### ✨ Saved Answer")
+    st.sidebar.download_button(
+        "💾 Download",
+        data=saved_data["answer"],
+        file_name=f"{selected_chat}.txt",
+        mime="text/plain",
+        use_container_width=True
+    )
+
+    st.markdown(saved_data["answer"])
+
 
 # ============================================
 # USER INPUT
 # ============================================
 
-# st.markdown('<div class="glass-box">', unsafe_allow_html=True)
+st.markdown('<div class="glass-box">', unsafe_allow_html=True)
 
 question = st.text_area(
 "💌 Enter Assignment Question",
@@ -208,11 +309,6 @@ st.markdown('</div>', unsafe_allow_html=True)
 # ============================================
 
 if generate:
-
-  
-        
-
-
     prompt = f"""
 The student has asked the following assignment question:
 
@@ -300,8 +396,37 @@ Important Instructions:
     message_placeholder.markdown(full_response)
 
     status.empty()
-
+    
     st.session_state["last_answer"] = full_response
+
+    # ============================================
+    # SAVE CHAT
+    # ============================================
+
+    timestamp = datetime.now().strftime(
+        "%Y-%m-%d_%H-%M-%S"
+    )
+
+    chat_data = {
+        "question": question,
+        "answer": full_response
+    }
+
+    filename = f"{' '.join(question.split()[:5])}@{timestamp}.json"
+
+    with open(
+        os.path.join(CHAT_DIR, filename),
+        "w",
+        encoding="utf-8"
+    ) as f:
+
+        json.dump(
+            chat_data,
+            f,
+            indent=4,
+            ensure_ascii=False
+        )
+
 
 
 
@@ -317,12 +442,12 @@ Important Instructions:
         unsafe_allow_html=True
     )
 
-    # st.download_button(
-    #     label="💾 Download Answer",
-    #     data=st.session_state["last_answer"],
-    #     file_name="assignment_answer.txt",
-    #     mime="text/plain"
-    # )
+    st.download_button(
+        label="💾 Download Answer",
+        data=st.session_state["last_answer"],
+        file_name="assignment_answer.txt",
+        mime="text/plain"
+    )
 
 # ============================================
 # FOOTER
