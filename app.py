@@ -28,14 +28,21 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 html, body, [class*="css"] {
     font-family: 'Poppins', sans-serif;
+    color: #1e293b !important;
 }
 
+/* Main App */
 .stApp {
-    background: linear-gradient(135deg, #ffe6f2, #fff0f7, #ffeef8);
+    background: #eaf6ff;
+}
+
+/* Remove weird dark/light theme conflicts */
+[data-testid="stAppViewContainer"] {
+    background: #eaf6ff;
 }
 
 /* Main title */
@@ -43,71 +50,123 @@ html, body, [class*="css"] {
     text-align: center;
     font-size: 3rem;
     font-weight: 700;
-    color: #ff4d94;
+    color: #2563eb;
     margin-top: 10px;
     margin-bottom: 0px;
 }
 
+/* Subtitle */
 .subtitle {
     text-align: center;
-    color: #7d4c61;
+    color: #475569;
     font-size: 1rem;
     margin-bottom: 2rem;
+    font-weight: 500;
 }
 
-/* Cute glass container */
-.glass-box {
-    background: rgba(255,255,255,0.65);
-    backdrop-filter: blur(12px);
-    padding: 1.5rem;
-    border-radius: 25px;
-    border: 2px solid rgba(255,255,255,0.5);
-    box-shadow: 0 8px 32px rgba(255, 105, 180, 0.15);
+/* Input container */
+.block-container {
+    padding-top: 2rem;
+    max-width: 850px;
 }
 
-/* Text area */
+/* Text Area */
 .stTextArea textarea {
+    background: white !important;
+    color: #0f172a !important;
     border-radius: 18px !important;
-    border: 2px solid #ffb6d5 !important;
-    background-color: #fff9fc !important;
-    color: #5a3b47 !important;
+    border: 2px solid #93c5fd !important;
+    padding: 1rem !important;
     font-size: 16px !important;
+    line-height: 1.6 !important;
+    box-shadow: 0 4px 12px rgba(59,130,246,0.08);
+}
+
+/* Placeholder text */
+.stTextArea textarea::placeholder {
+    color: #64748b !important;
 }
 
 /* Button */
 .stButton > button {
     width: 100%;
-    border-radius: 16px;
-    background: linear-gradient(90deg, #ff66a3, #ff85b3);
-    color: white;
     border: none;
-    padding: 0.8rem;
+    border-radius: 16px;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    color: white;
     font-size: 1rem;
     font-weight: 600;
-    transition: 0.3s ease;
+    padding: 0.9rem;
+    margin-top: 10px;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 18px rgba(59,130,246,0.2);
 }
 
+/* Button Hover */
 .stButton > button:hover {
-    transform: scale(1.02);
-    background: linear-gradient(90deg, #ff4d94, #ff75ab);
+    transform: translateY(-2px);
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
 }
 
-/* Output box */
+/* Answer Container */
 .answer-box {
     background: white;
-    padding: 1.5rem;
-    border-radius: 20px;
-    border: 2px solid #ffd1e6;
+    border-radius: 22px;
+    padding: 2rem;
     margin-top: 1.5rem;
-    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.12);
+    border: 2px solid #bfdbfe;
+    box-shadow: 0 8px 24px rgba(59,130,246,0.12);
+}
+
+/* Markdown text */
+.answer-box p,
+.answer-box li,
+.answer-box h1,
+.answer-box h2,
+.answer-box h3,
+.answer-box h4,
+.answer-box span {
+    color: #0f172a !important;
+}
+
+/* Streamed response text */
+.stMarkdown {
+    color: #0f172a !important;
+}
+
+/* Status Box */
+.status-box {
+    background: white;
+    padding: 14px;
+    border-radius: 16px;
+    border: 2px solid #bfdbfe;
+    color: #2563eb;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 14px rgba(59,130,246,0.1);
 }
 
 /* Footer */
 .footer {
     text-align: center;
-    color: #9a6b82;
+    color: #64748b;
     margin-top: 2rem;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Hide streamlit branding */
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+header {
+    visibility: hidden;
 }
 
 </style>
