@@ -1,10 +1,15 @@
 import streamlit as st
 from langchain_mistralai import ChatMistralAI
 from dotenv import load_dotenv
-import streamlit.components.v1 as components
 import os 
-import json 
-from datetime import datetime
+
+
+from supabase import create_client
+
+supabase = create_client(
+    st.secrets["SUPABASE_URL"],
+    st.secrets["SUPABASE_KEY"]
+)
 # ============================================
 # PAGE CONFIG
 # ============================================
@@ -14,9 +19,9 @@ os.makedirs(CHAT_DIR, exist_ok=True)
 
 llm = ChatMistralAI(
     model="mistral-large-latest",
-    temperature=0.7,
+    temperature=0,
     streaming=True,
-    max_tokens=900
+    max_tokens=1000
     # other params...
 )
 st.set_page_config(
@@ -255,43 +260,38 @@ st.sidebar.title("💙 Previous Assignments")
 # LOAD SAVED CHATS
 # ============================================
 
-chat_files = sorted(
-    os.listdir(CHAT_DIR),
-    reverse=True
-)
+saved_chats = (
+    supabase.table("assignments")
+    .select("*")
+    .order("created_at", desc=True)
+    .execute()
+).data
 
-chat_display_names = []
 chat_mapping = {}
 
-for file in chat_files:
+for row in saved_chats:
 
-    # remove extension
-    question_text = file.split("@",1)[0]
+    title = row["title"] or "Untitled Assignment"
 
-    # sidebar visible name
-    display_name = question_text
+    display_name = title
 
-    # keep duplicates unique internally
     counter = 1
 
     while display_name in chat_mapping:
-
         counter += 1
+        display_name = f"{title} ({counter})"
 
-        display_name = f"{question_text} ({counter})"
+    chat_mapping[display_name] = row
 
-    chat_display_names.append(display_name)
-
-    # map display name -> actual file
-    chat_mapping[display_name] = file
 
 # ============================================
 # SIDEBAR
 # ============================================
 
+
 selected_chat = st.sidebar.selectbox(
     "💙 Previous Assignments",
-    ["New Chat"] + chat_display_names
+    ["New Chat"] + list(chat_mapping.keys())
 )
 
 # ============================================
@@ -299,47 +299,27 @@ selected_chat = st.sidebar.selectbox(
 # ============================================
 
 if selected_chat != "New Chat":
+    chat = chat_mapping[selected_chat]
 
-    selected_file = chat_mapping[selected_chat]
+    question = chat["question"]
 
-    with open(
-        os.path.join(CHAT_DIR, selected_file),
-        "r",
-        encoding="utf-8"
-    ) as f:
+    full_response = chat["answer"]
 
-        saved_data = json.load(f)
-
-    question = saved_data["question"]
-
-    full_response = saved_data["answer"]
-
-
-
-# LOAD OLD CHAT
-if selected_chat != "New Chat":
-    selected_file = chat_mapping[selected_chat]
-    with open(
-        os.path.join(CHAT_DIR, selected_file),
-        "r",
-        encoding="utf-8"
-    ) as f:
-
-        saved_data = json.load(f)
+    st.markdown(full_response)
 
     st.sidebar.markdown("### 📚 Question")
-    st.sidebar.write(saved_data["question"])
+    st.sidebar.write(question)
 
     st.sidebar.markdown("### ✨ Saved Answer")
     st.sidebar.download_button(
         "💾 Download",
-        data=saved_data["answer"],
-        file_name=f"{selected_chat}.txt",
+        data=full_response,
+        file_name=f"{question}.txt",
         mime="text/plain",
         use_container_width=True
     )
 
-    st.markdown(saved_data["answer"])
+    st.markdown(full_response)
 
 
 # ============================================
@@ -456,30 +436,13 @@ Important Instructions:
     # ============================================
     # SAVE CHAT
     # ============================================
-
-    timestamp = datetime.now().strftime(
-        "%Y-%m-%d_%H-%M-%S"
-    )
-
-    chat_data = {
+    title = question[:80].strip()
+    supabase.table("assignments").insert(
+    {   "title": title,
         "question": question,
         "answer": full_response
     }
-
-    filename = f"{' '.join(question.split()[:5])}@{timestamp}.json"
-
-    with open(
-        os.path.join(CHAT_DIR, filename),
-        "w",
-        encoding="utf-8"
-    ) as f:
-
-        json.dump(
-            chat_data,
-            f,
-            indent=4,
-            ensure_ascii=False
-        )
+    ).execute()
 
 
 
@@ -499,7 +462,7 @@ Important Instructions:
     st.download_button(
         label="💾 Download Answer",
         data=st.session_state["last_answer"],
-        file_name="assignment_answer.txt",
+        file_name=f"{question}.txt",
         mime="text/plain"
     )
 
