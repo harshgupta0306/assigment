@@ -309,8 +309,6 @@ if selected_chat != "New Chat":
 
     full_response = chat["answer"]
 
-    st.markdown(full_response)
-
     st.sidebar.markdown("### 📚 Question")
     st.sidebar.write(question)
 
