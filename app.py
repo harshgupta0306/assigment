@@ -1,5 +1,6 @@
 import streamlit as st
 from langchain_mistralai import ChatMistralAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os 
 
@@ -21,9 +22,12 @@ llm = ChatMistralAI(
     model="mistral-large-latest",
     temperature=0,
     streaming=True,
-    max_tokens=1000
+    max_tokens=1000,
     # other params...
 )
+
+# gemini = ChatGoogleGenerativeAI(model="gemini-3-flash-preview", 
+#                                         temperature=2)
 st.set_page_config(
     page_title="Meri cutie ki Assignments 💖",
     page_icon="💖",
@@ -344,45 +348,68 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 if generate:
     prompt = f"""
-The student has asked the following assignment question:
+You are an academic assignment writer.
 
+Question:
 "{question}"
 
-Write a well-structured academic answer in approximately 500 words.
+TASK:
+Write a complete university-level answer between 480 and 520 words.
+The final answer MUST NOT be below 480 words and MUST NOT exceed 520 words.
 
-The answer must be concise yet comprehensive, ensuring that all important dimensions of the question are covered within the word limit.
+Before generating the answer:
+- Plan the structure.
+- Allocate words proportionally across sections.
+- Ensure all major dimensions of the question are covered.
+- Verify that the final answer is within the required word range.
 
-Follow this structure:
+STRUCTURE
 
-1. Title
-- Begin with a clear and relevant title based on the question.
+# Title
+Provide a clear, relevant title based on the question.
 
-2. Introduction
-- Write a brief introduction explaining the topic, its relevance, and the scope of the answer.
+# Introduction (60–80 words)
+- Introduce the topic.
+- Explain its significance.
+- State the scope of the discussion.
 
-3. Main Body
-- Divide the answer into logical headings and subheadings.
+# Main Body (300–340 words)
+Organize the discussion using logical headings and subheadings.
+
+Requirements:
 - Use numbered points wherever appropriate.
-- Include brief definitions or meanings of key concepts.
-- Explain major arguments, features, roles, functions, or theories related to the topic.
-- Use academic and sociological terminology where relevant.
-- Add short examples or illustrations for clarity.
-- Keep explanations concise and analytical instead of overly descriptive.
+- Define important concepts briefly.
+- Explain key theories, functions, characteristics, arguments, or perspectives relevant to the question.
+- Use academic and sociological terminology where applicable.
+- Include short examples or illustrations.
+- Focus on analysis rather than lengthy description.
+- Avoid unnecessary details.
 
-4. Relationship/Analysis Section
-- If applicable, briefly explain the relationship or interconnection between major concepts, theories, or ideas.
+# Relationship / Analytical Discussion (60–80 words)
+- Explain relationships, interconnections, comparisons, or theoretical linkages among the major concepts discussed.
+- Highlight significance or implications.
 
-5. Conclusion
-- End with a short conclusion summarizing the overall discussion and significance of the topic.
+# Conclusion (40–60 words)
+- Summarize the main arguments.
+- Reinforce the overall significance of the topic.
 
-Important Instructions:
-- Strictly keep the answer close to 500 words.
-- Do not exceed 520 words.
-- Prioritize clarity, structure, and balanced coverage over excessive detail.
-- Use formal academic language suitable for university assignments and exam answers.
-- Avoid repetition, filler content, and conversational language.
+WRITING GUIDELINES
+- Maintain a formal academic tone.
+- Use concise and precise language.
 - Keep paragraphs short and readable.
-- Ensure the answer feels complete despite the concise length.
+- Avoid repetition, filler content, and conversational expressions.
+- Ensure smooth transitions between sections.
+- Do not include bullet points unless they improve clarity.
+- Cover all important dimensions of the question within the word limit.
+
+FINAL CHECK BEFORE OUTPUT
+1. Is the answer between 480 and 520 words?
+2. Does it contain all required sections?
+3. Are headings clearly marked?
+4. Is the discussion balanced and complete?
+5. If any condition is not met, revise before producing the final answer.
+
+Output only the final answer.
 """
 
 
